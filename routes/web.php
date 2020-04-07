@@ -27,6 +27,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
 //需要登录才能进入的路由
 Route::group(['middleware' => 'auth:web','namespace' => 'Admin'],function (){
     Route::get('posts', 'PostController@index');
+    Route::get('/posts/create', 'PostController@create');
+    Route::post('/posts', 'PostController@store');
+    Route::get('/posts/search', 'PostController@search');
+    Route::get('/posts/{post}', 'PostController@show');
+    Route::get('/posts/{post}/edit', 'PostController@edit');
+    Route::put('/posts/{post}', 'PostController@update');
 });
 
 

@@ -1,13 +1,107 @@
 <?php
-    namespace  App\Http\Controllers\Admin;
-    use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
-    class PostController extends Controller{
-        //登录页面
-        public function index(){
-            return view('admin.post.index');
-        }
+namespace App\Http\Controllers\Admin;
 
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Model\Admin\Post;
+use App\Model\Admin\User;
+use App\Model\Admin\PostLog;
+class PostController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('admin.post.index');
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.post.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|min:4|max:50',
+            'desc' => 'required|min:4|max:100',
+            'content' => 'required|min:10',
+        ]);
+        //获取登录用户信息
+        $user   = User::where('id',\Auth::id())->first()->toArray();
+        $params = array_merge(request(['title','desc' ,'content']), ['user_id' => \Auth::id(),'author' => $user['name'],'created_at' => date("Y-m-d H:i:s",time())]);
+        $post   = Post::create($params)->toArray();
+        //入库日志
+        if($post){
+            $data = array();
+            $data['post_id'] = $post['id'];
+            $data['user_id'] = \Auth::id();
+            $data['action'] = 'insert';
+            $data['content'] = request(['content']);
+            $data['ip'] = $_SERVER['REMOTE_ADDR'];
+            $data['create_time'] = time();
+            PostLog::insert($data);
+        }
+        return redirect('/posts');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
