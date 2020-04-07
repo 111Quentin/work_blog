@@ -14,7 +14,7 @@
             $this->validate(request(),[
                 'name' => 'required|min:3|unique:users,name',
                 'email' => 'required|unique:users,email|email',
-                'password' => 'required|min:5|confirmed',
+                'password' => 'required|min:6|max:30|confirmed',
                 'captcha'   =>  'required|captcha'
             ]);
             $data = array();

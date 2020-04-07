@@ -1,7 +1,9 @@
 <?php
     namespace  App\Model\Admin;
     use Illuminate\Database\Eloquent\Model;
-    class User extends  Model{
+    //引入trait
+    use Illuminate\Auth\Authenticatable;
+    class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable{
         // 指定与当前模块关联的数据表
         protected $table = 'users';
 
@@ -13,4 +15,7 @@
         protected $hidden = [
             'password', 'remember_token',
         ];
+
+        // 使用trait,相当于将整个trait代码复制过来(trait是php 5.4才有的语法,主要用于实现代码复用)
+        use Authenticatable;
     }

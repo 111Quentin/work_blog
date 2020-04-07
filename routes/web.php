@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/', "Admin\LoginController@index");
+
 //后台路由部分
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
     //后台注册页面
@@ -21,10 +23,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
     Route::post('login','LoginController@login');
 });
 
-
-
-
-//匿名函数路由
-Route::get('/', function () {
-    return view('welcome');
+//需要登录才能进入的路由
+Route::group(['middleware' => 'auth:web','namespace' => 'Admin'],function (){
+    Route::get('posts', 'PostController@index');
 });
+
+
+
+
+
+
+
