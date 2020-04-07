@@ -3,7 +3,7 @@
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
     use App\Model\Admin\User;
-    use Illuminate\Support\Facades\DB;//使用DB操作数据库
+
     class RegisterController extends Controller{
         //注册页面
         public function index(){

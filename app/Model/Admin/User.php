@@ -3,6 +3,7 @@
     use Illuminate\Database\Eloquent\Model;
     //引入trait
     use Illuminate\Auth\Authenticatable;
+
     class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable{
         // 指定与当前模块关联的数据表
         protected $table = 'users';
@@ -18,4 +19,35 @@
 
         // 使用trait,相当于将整个trait代码复制过来(trait是php 5.4才有的语法,主要用于实现代码复用)
         use Authenticatable;
+
+        /**
+         * 检查登录
+         */
+        public function checkLogin($user = array()){
+            $data                   =   array();
+            $data['email']          =   $user['email'];
+            $data['ip']             =   $_SERVER['REMOTE_ADDR'];
+            $data['create_time']    =   time();
+
+            //检查是否有此用户
+            $userInfo = self::where('email',$user['email'])->first();
+            //统计登录错误次数
+            $logMins = time() - 10 * 60;
+            $loginCounts = LoginLog::where('email',$user['email'])->where('create_time','>=',$logMins)->count();
+            //登录成功
+            if(true == \Auth::guard('web')->attempt($user) && $loginCounts < 5){
+                //记录登录成功日志
+                $data['login_type'] = 'suc';
+                LoginLog::insert($data);
+                return 1;
+            }else if(empty($userInfo)){  //无此用户
+                return 0;
+            }else if($loginCounts >= 5){
+                return -1;
+            }else{
+                $data['login_type'] = 'fail';
+                LoginLog::insert($data);
+                return -2;
+            }
+        }
     }

@@ -43,11 +43,6 @@
         <label for="captcha" class="sr-only">密码</label>
         <input type="index" name="captcha" id="captcha" class="form-control" placeholder="请输入验证码" required>
         <img src="{{captcha_src()}}" alt="验证码" id="img" style="margin: 20px 0px;">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="1" name="is_remember"> 记住我
-            </label>
-        </div>
         @include('admin.layout.error')
         <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
         <a href="/admin/register" class="btn btn-lg btn-primary btn-block" type="submit">去注册>></a>

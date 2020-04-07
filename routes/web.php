@@ -15,12 +15,13 @@ Route::get('/', "Admin\LoginController@index");
 
 //后台路由部分
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
-    //后台注册页面
+    //后台注册
     Route::get('register','RegisterController@index');
     Route::post('register','RegisterController@register');
-    //后台登录页面
+    //后台登录
     Route::get('login','LoginController@index');
     Route::post('login','LoginController@login');
+    Route::get('logout','LoginController@logout');
 });
 
 //需要登录才能进入的路由
