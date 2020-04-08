@@ -16,7 +16,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.post.index');
+        $user = \Auth::user()->toArray();
+        if($user['name'] == 'admin'){
+            $posts = Post::where('id','>',0)->orderBy('created_at', 'desc')->paginate(5);
+        }else{
+            $posts = Post::where('user_id',$user['id'])->orderBy('created_at', 'desc')->paginate(5);
+        }
+        return view('admin.post.index',compact('posts'));
     }
 
     /**
@@ -52,7 +58,7 @@ class PostController extends Controller
             $data['post_id'] = $post['id'];
             $data['user_id'] = \Auth::id();
             $data['action'] = 'insert';
-            $data['content'] = request(['content']);
+            $data['content'] = request(['content'][0]);
             $data['ip'] = $_SERVER['REMOTE_ADDR'];
             $data['create_time'] = time();
             PostLog::insert($data);

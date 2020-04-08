@@ -17,7 +17,7 @@ class CreatePostsLogTable extends Migration
             $table->increments('id');
             $table->integer('post_id');
             $table->integer('user_id');
-            $table->enum('action',['create','delete','update','select']);
+            $table->enum('action',['insert','delete','update','select']);
             $table->text('content');
             $table->string('ip',30);
             $table->integer('create_time');

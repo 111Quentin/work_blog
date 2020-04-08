@@ -23,7 +23,7 @@
 {{--                    <img src="{{$user->avatar}}" alt="" class="img-rounded" style="border-radius:500px; height: 30px">--}}
                     <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">帅填<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/logout">登出</a></li>
+                        <li><a href="/admin/logout">登出</a></li>
                     </ul>
                 </div>
             </li>
