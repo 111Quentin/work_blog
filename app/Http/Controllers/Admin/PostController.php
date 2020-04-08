@@ -155,7 +155,12 @@ class PostController extends Controller
             'query' => 'required'
         ]);
         $query = request('query');
-        $posts = Post::where('title','like','%'.$query.'%')->orWhere('author','like','%'.$query.'%')->orWhere('created_at','like','%'.$query.'%')->paginate(10);
+        if(preg_match('/\d+/',$query)){
+            $posts = Post::where('created_at','like','%'.$query.'%')->paginate(10);
+        }
+        else{
+            $posts = Post::where('title','like','%'.$query.'%')->orWhere('author','like','%'.$query.'%')->paginate(10);
+        }
         return view('admin.post.search', compact('posts', 'query'));
     }
 }

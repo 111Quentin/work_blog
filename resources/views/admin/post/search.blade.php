@@ -11,7 +11,7 @@
             <div class="blog-post">
                 <h2 class="blog-post-title"><a href="/posts/{{$post->id}}" >{{$post->title}}</a></h2>
                 <h3 class="blog-post-mata">{{$post->desc}}</h3>
-                <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} by <a href="#">Mark</a></p>
+                <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} by <a href="#">{{$post->author}}</a></p>
                 <p>{!! str_limit($post->content, 200, '...') !!}</p>
             </div>
         @endforeach

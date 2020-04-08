@@ -9,8 +9,8 @@
                 <a class="blog-nav-item" href="/posts/create">写文章</a>
             </li>
 
-            <li>
-                <input name="query" type="text" value="" class="form-control" style="margin-top:10px" placeholder="搜索词">
+            <li style="width: 227px;">
+                <input name="query" type="text" value="" class="form-control" style="margin-top:10px" placeholder="搜索时间格式如:2020-04-08">
             </li>
             <li>
                 <button class="btn btn-default" style="margin-top:10px" type="submit">Go!</button>
