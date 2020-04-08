@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Policies;
+use App\Model\Admin\User;
+use App\Model\Admin\Post;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class PostsPolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * 鉴定是否有文章修改的权限
+     * @param User $user
+     * @param Post $post
+     * @return bool
+     */
+    public function update(User $user,Post $post){
+        if($user->name == 'admin'){
+            return true;
+        }
+        return $user->id == $post->user_id;
+    }
+
+    /**
+     * 鉴定是否有文章删除的权限
+     * @param User $user
+     * @param Post $post
+     * @return bool
+     */
+    public function delete(User $user,Post $post){
+        if($user->name == 'admin'){
+            return true;
+        }
+        return $user->id == $post->user_id;
+    }
+}

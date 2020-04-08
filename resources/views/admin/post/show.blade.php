@@ -7,13 +7,17 @@
         <div class="blog-post">
             <div style="display:inline-flex">
                 <h2 class="blog-post-title">{{$post->title}}</h2>
+                    @can('update', $post)
+                        <a style="margin: auto"  href="/posts/{{$post->id}}/edit">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </a>
+                    @endcan
+                    @can('delete', $post)
+                        <a style="margin: auto"  href="/posts/{{$post->id}}/delete">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    @endcan
 
-                    <a style="margin: auto"  href="/posts/{{$post->id}}/edit">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    </a>
-                    <a style="margin: auto"  href="/posts/{{$post->id}}/delete">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </a>
             </div>
             <br>
             <h3 class="blog-post-mata" style="margin: 10px 0;">{{$post->desc}}</h3>

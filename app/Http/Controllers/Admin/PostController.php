@@ -105,6 +105,7 @@ class PostController extends Controller
         //获取登录用户信息
         $user   = User::where('id',\Auth::id())->first()->toArray();
         $params = array_merge(request(['title','desc' ,'content']), ['user_id' => \Auth::id(),'author' => $user['name'],'updated_at' => date("Y-m-d H:i:s",time())]);
+        $this->authorize('update', $post);
         $res = $post->update($params);
         //写入日志
         if($res){
@@ -130,6 +131,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
         $data = array();
         $data['post_id']     =      $post['id'];
         $data['user_id']     =      \Auth::id();
