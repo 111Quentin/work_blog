@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Admin\Post;
 use App\Model\Admin\User;
 use App\Model\Admin\PostLog;
+use DB;
 class PostController extends Controller
 {
     /**
@@ -109,5 +110,18 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 搜索
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(){
+        $this->validate(request(),[
+            'query' => 'required'
+        ]);
+        $query = request('query');
+        $posts = Post::where('title','like','%'.$query.'%')->orWhere('author','like','%'.$query.'%')->orWhere('created_at','like','%'.$query.'%')->paginate(10);
+        return view('admin.post.search', compact('posts', 'query'));
     }
 }

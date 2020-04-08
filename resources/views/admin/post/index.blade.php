@@ -8,6 +8,8 @@
             @foreach($posts as $post)
                 <div class="blog-post">
                     <h2 class="blog-post-title"><a href="/posts/{{$post->id}}" >{{$post->title}}</a></h2>
+                    <br>
+                    <h3 class="blog-post-mata">{{$post->desc}}</h3>
                     <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} by <a href="/user/{{$post->user_id}}">{{$post->author}}</a></p>
                     {!! str_limit($post->content, 100, '...') !!}
                 </div>
