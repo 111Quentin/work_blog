@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth:web','namespace' => 'Admin'],function (){
     Route::get('/posts/search', 'PostController@search');
     Route::get('/posts/{post}', 'PostController@show');
     Route::get('/posts/{post}/edit', 'PostController@edit');
+    Route::get('/posts/{post}/delete', 'PostController@destroy');
     Route::put('/posts/{post}', 'PostController@update');
 });
 

@@ -59,6 +59,8 @@ class PostController extends Controller
             $data['post_id'] = $post['id'];
             $data['user_id'] = \Auth::id();
             $data['action'] = 'insert';
+            $data['title'] = request(['title'][0]);
+            $data['desc'] = request(['desc'][0]);
             $data['content'] = request(['content'][0]);
             $data['ip'] = $_SERVER['REMOTE_ADDR'];
             $data['create_time'] = time();
@@ -70,23 +72,20 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('admin.post.show', compact('post'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.post.edit', compact('post'));
     }
 
     /**
@@ -96,9 +95,31 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|min:4|max:50',
+            'desc' => 'required|min:4|max:100',
+            'content' => 'required|min:10',
+        ]);
+        //获取登录用户信息
+        $user   = User::where('id',\Auth::id())->first()->toArray();
+        $params = array_merge(request(['title','desc' ,'content']), ['user_id' => \Auth::id(),'author' => $user['name'],'updated_at' => date("Y-m-d H:i:s",time())]);
+        $res = $post->update($params);
+        //写入日志
+        if($res){
+            $data                       = array();
+            $data['post_id']            = $post['id'];
+            $data['user_id']            = \Auth::id();
+            $data['action']             = 'update';
+            $data['title']              = request(['title'][0]);
+            $data['desc']               = request(['desc'][0]);
+            $data['content']            = request(['content'][0]);
+            $data['ip']                 = $_SERVER['REMOTE_ADDR'];
+            $data['create_time']        = time();
+            PostLog::insert($data);
+        }
+        return redirect("/posts/{$post->id}");
     }
 
     /**
@@ -107,9 +128,20 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $data = array();
+        $data['post_id']     =      $post['id'];
+        $data['user_id']     =      \Auth::id();
+        $data['action']      =      'delete';
+        $data['title']       =      $post['title'];
+        $data['desc']        =      $post['desc'];
+        $data['content']     =      $post['content'];
+        $data['ip']          =      $_SERVER['REMOTE_ADDR'];
+        $data['create_time'] =      time();
+        PostLog::insert($data);
+        Post::destroy($post['id']);
+        return redirect("/posts");
     }
 
     /**
