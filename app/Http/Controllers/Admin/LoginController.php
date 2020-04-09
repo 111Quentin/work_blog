@@ -1,5 +1,6 @@
 <?php
 namespace  App\Http\Controllers\Admin;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Admin\User;
@@ -21,16 +22,9 @@ class LoginController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function login( Request $request )
+    public function login(Request $request)
     {
-        $this->validate($request, [
-            'email'    => 'required|email',
-            'password' => 'required|min:6|max:30',
-            'captcha'  =>  'required|captcha'
-        ]);
-        $user                   =   request(['email','password']);
-        $UserModel              =   new User();
-        $code                   =   $UserModel->checkLogin($user);
+        $code = (new User())->checkLogin();
         switch ($code){
             case '1':
                 return redirect('/posts');

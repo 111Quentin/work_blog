@@ -4,6 +4,7 @@ namespace  App\Model\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Auth;
+Use App\Http\Requests;
 
 class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
@@ -48,12 +49,12 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
     /**
      * 检查登录
      */
-    public function checkLogin($user = array()){
+    public function checkLogin(){
+        $user = request(['email', 'password']);
         $data                   =   array();
         $data['email']          =   $user['email'];
         $data['ip']             =   $_SERVER['REMOTE_ADDR'];
         $data['create_time']    =   time();
-
         //检查是否有此用户
         $userInfo = self::where('email', $user['email'])->first();
         //统计登录错误次数
