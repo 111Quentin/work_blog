@@ -17,7 +17,6 @@ class PostController extends Controller
         return view('admin.post.index', compact('posts'));
     }
 
-
     public function create()
     {
         return view('admin.post.create');
@@ -29,26 +28,22 @@ class PostController extends Controller
         return redirect('/posts');
     }
 
-
     public function show(Post $post)
     {
         return view('admin.post.show', compact('post'));
     }
-
 
     public function edit(Post $post)
     {
         return view('admin.post.edit', compact('post'));
     }
 
-
     public function update(UpdatePostCheck $request, Post $post)
     {
         $this->authorize('update', $post);
-        $post->updatePost();
+        $post->updatePost($post);
         return redirect("/posts/{$post->id}");
     }
-
 
     public function destroy(Post $post)
     {
@@ -57,10 +52,6 @@ class PostController extends Controller
         return redirect("/posts");
     }
 
-    /**
-     * 搜索
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function search()
     {
         $this->validate(request(), [
