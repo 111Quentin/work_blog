@@ -3,14 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PostCheck;
+use App\Http\Requests\PostSeachCheck ;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePostCheck;
 use App\Model\Admin\Post;
-use DB;
+use App\Repositories\PostRepository;
+use App\Services\PostService;
+use App\Http\Requests;
 
 class PostController extends Controller
 {
-    
+    private $postService;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postService = new PostService($postRepository);
+    }
+
     public function index()
     {
         $posts = (new Post())->getPosts();
@@ -52,18 +61,10 @@ class PostController extends Controller
         return redirect("/posts");
     }
 
-    public function search()
+    public function search(PostSeachCheck $request)
     {
-        $this->validate(request(), [
-            'query' => 'required'
-        ]);
         $query = request('query');
-        if(preg_match('/\d+/', $query)){
-            $posts = Post::where('created_at', 'like', '%' . $query . '%')->paginate(10);
-        }
-        else{
-            $posts = Post::where('title', 'like', '%' . $query . '%')->orWhere('author', 'like' , '%' . $query . '%')->paginate(10);
-        }
+        $posts = $this->postService->postSearch($query);
         return view('admin.post.search', compact('posts', 'query'));
     }
 }

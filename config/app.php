@@ -151,7 +151,7 @@ return [
          * Package Service Providers...
          */
         \Mews\Captcha\CaptchaServiceProvider::class,
-
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
 
         /*
