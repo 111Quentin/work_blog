@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PostCheck;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePostCheck;
 use App\Model\Admin\Post;
-use App\Model\Admin\User;
-use App\Model\Admin\PostLog;
-use Auth;
 use DB;
+
 class PostController extends Controller
 {
     
     public function index()
     {
-        $user = Auth::user()->toArray();
-        if ($user['name'] == 'admin') {
-            $posts = Post::where('id', '>', 0)->orderBy('created_at', 'desc')->paginate(5);
-        } else {
-            $posts = Post::where('user_id', $user['id'])->orderBy('created_at', 'desc')->paginate(5);
-        }
+        $posts = (new Post())->getPosts();
         return view('admin.post.index', compact('posts'));
     }
 
@@ -29,30 +23,9 @@ class PostController extends Controller
         return view('admin.post.create');
     }
 
-    public function store(Request $request)
+    public function store(PostCheck $request)
     {
-        $this->validate($request, [
-            'title' => 'required|min:4|max:50',
-            'desc' => 'required|min:4|max:100',
-            'content' => 'required|min:10',
-        ]);
-        //获取登录用户信息
-        $user   = User::where('id', Auth::id())->first()->toArray();
-        $params = array_merge(request(['title', 'desc' ,'content']), ['user_id' => Auth::id(), 'author' => $user['name'], 'created_at' => date("Y-m-d H:i:s", time())]);
-        $post   = Post::create($params)->toArray();
-        //入库日志
-        if($post){
-            $data                   =  array();
-            $data['post_id']        =  $post['id'];
-            $data['user_id']        =  Auth::id();
-            $data['action']         =  'insert';
-            $data['title']          =  request(['title'][0]);
-            $data['desc']           =  request(['desc'][0]);
-            $data['content']        =  request(['content'][0]);
-            $data['ip']             =  $_SERVER['REMOTE_ADDR'];
-            $data['create_time']    =  time();
-            PostLog::insert($data);
-        }
+        (new Post())->storePosts();
         return redirect('/posts');
     }
 
@@ -69,31 +42,10 @@ class PostController extends Controller
     }
 
 
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostCheck $request, Post $post)
     {
-        $this->validate($request, [
-            'title' => 'required|min:4|max:50',
-            'desc' => 'required|min:4|max:100',
-            'content' => 'required|min:10',
-        ]);
-        //获取登录用户信息
-        $user   = User::where('id', Auth::id())->first()->toArray();
-        $params = array_merge(request(['title', 'desc', 'content']), ['user_id' => Auth::id(), 'author' => $user['name'], 'updated_at' => date("Y-m-d H:i:s", time())]);
         $this->authorize('update', $post);
-        $res = $post->update($params);
-        //写入日志
-        if($res){
-            $data                       = array();
-            $data['post_id']            = $post['id'];
-            $data['user_id']            = \Auth::id();
-            $data['action']             = 'update';
-            $data['title']              = request(['title'][0]);
-            $data['desc']               = request(['desc'][0]);
-            $data['content']            = request(['content'][0]);
-            $data['ip']                 = $_SERVER['REMOTE_ADDR'];
-            $data['create_time']        = time();
-            PostLog::insert($data);
-        }
+        $post->updatePost();
         return redirect("/posts/{$post->id}");
     }
 
@@ -101,17 +53,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-        $data = array();
-        $data['post_id']     =      $post['id'];
-        $data['user_id']     =      \Auth::id();
-        $data['action']      =      'delete';
-        $data['title']       =      $post['title'];
-        $data['desc']        =      $post['desc'];
-        $data['content']     =      $post['content'];
-        $data['ip']          =      $_SERVER['REMOTE_ADDR'];
-        $data['create_time'] =      time();
-        PostLog::insert($data);
-        Post::destroy($post['id']);
+        $post->postDel($post['id'], $post);
         return redirect("/posts");
     }
 
