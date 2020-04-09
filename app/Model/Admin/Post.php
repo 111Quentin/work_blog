@@ -1,6 +1,8 @@
 <?php
     namespace  App\Model\Admin;
+
     use Illuminate\Database\Eloquent\Model;
+    use Auth;
 
     class Post extends  Model {
         // 指定与当前模块关联的数据表

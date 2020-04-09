@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         $user = Auth::user()->toArray();
-        if ( $user['name'] == 'admin' ) {
+        if ($user['name'] == 'admin') {
             $posts = Post::where('id', '>', 0)->orderBy('created_at', 'desc')->paginate(5);
         } else {
             $posts = Post::where('user_id', $user['id'])->orderBy('created_at', 'desc')->paginate(5);

@@ -1,6 +1,7 @@
 <?php
 namespace  App\Http\Controllers\Admin;
 
+use App\Http\Requests\LoginPost;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Admin\User;
@@ -22,7 +23,7 @@ class LoginController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function login(Request $request)
+    public function login(LoginPost $request)
     {
         $code = (new User())->checkLogin();
         switch ($code){
