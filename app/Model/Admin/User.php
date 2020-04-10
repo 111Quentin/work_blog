@@ -78,4 +78,9 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
             return -2;
         }
     }
+
+    public function isAdmin()
+    {
+        return $this->name == 'admin';
+    }
 }

@@ -1,7 +1,9 @@
 <?php
 namespace App\Repositories;
 
+use App\Criteria\RoleCriteria;
 use App\Model\Admin\PostLog;
+use Illuminate\Container\Container as Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Model\Admin\Post;
 use App\Model\Admin\User;
@@ -10,24 +12,28 @@ use Auth;
 
 class PostRepository extends  BaseRepository
 {
+
     public function model()
     {
         return Post::class;
     }
 
-    /**
-     * 获取文章
-     * @return mixed
-     */
-    public function getPosts()
+    public function getSearchable()
     {
-        $user = Auth::user()->toArray();
-        if ($user['name'] == 'admin') {
-            $posts = Post::where('id', '>', 0)->orderBy('created_at', 'desc')->paginate(5);
-        } else {
-            $posts = Post::where('user_id', $user['id'])->orderBy('created_at', 'desc')->paginate(5);
+        return [
+            'title' => 'like',
+            'author' => 'name',
+            'create_time' => 'btwtime',
+        ];
+    }
+
+    public function searchName($model, $value)
+    {
+        $user = User::where('name', $value)->first();
+        if ( !empty($user) ) {
+            return $model->where('user_id', $user->id);
         }
-        return $posts;
+        return $model->where('user_id', 0);
     }
 
     /**

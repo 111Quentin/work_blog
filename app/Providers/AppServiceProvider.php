@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Criteria\RoleCriteria;
+use App\Criteria\SearchCriteria;
 use Illuminate\Support\ServiceProvider;
+use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Providers\RepositoryServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
-        $this->app->register(RepositoryServiceProvider::class);
+        $this->app->afterResolving(RepositoryCriteriaInterface::class,
+            function(RepositoryCriteriaInterface $object, $app) {
+                $object->pushCriteria($app->make(RoleCriteria::class))
+                ->pushCriteria($app->make(SearchCriteria::class));
+            });
     }
 }

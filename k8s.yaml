@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: blog
+spec:
+    selector:
+        matchLabels:
+            app: blog
+    template:
+        metadata:
+            labels:
+                app: blog
+        spec:
+            containers:
+                - name: blog
+                  image: my-laravel:latest
+                  imagePullPolicy: IfNotPresent
+                  volumeMounts:
+                      - mountPath: /var/www/laravel
+                        name: laravel
+                  ports:
+                      - containerPort: 80
+                        name: http
+
+            volumes:
+                - name: laravel
+                  hostPath:
+                      path: /Users/wuwenlong/Documents/code/work_blog
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: blog-service
+spec:
+    selector:
+        app: blog
+    type: NodePort
+    ports:
+        - port: 8080
+          targetPort: http
+          nodePort: 30888
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mysql
+spec:
+    selector:
+        matchLabels:
+            app: mysql
+    template:
+        metadata:
+            labels:
+                app: mysql
+        spec:
+            containers:
+                - name: mysql
+                  image: mysql:5.7.26
+                  imagePullPolicy: IfNotPresent
+                  volumeMounts:
+                      - mountPath: /var/lib/mysql
+                        name: mysql
+                  env:
+                      - name: MYSQL_ROOT_PASSWORD
+                        value: "root"
+                      - name: MYSQL_DATABASE
+                        value: "blog"
+                  ports:
+                      - containerPort: 3306
+                        name: mysql
+            volumes:
+                - name: mysql
+                  hostPath:
+                      path: /Users/wuwenlong/Documents/code/work_blog/mysql
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: mysql-service
+spec:
+    selector:
+        app: mysql
+    ports:
+        - port: 3306
+          targetPort: mysql
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: redis
+spec:
+    selector:
+        matchLabels:
+            app: redis
+    template:
+        metadata:
+            labels:
+                app: redis
+        spec:
+            containers:
+                - name: redis
+                  image: redis:latest
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 6379
+                        name: redis
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis-service
+spec:
+    selector:
+        app: redis
+    ports:
+        - port: 6379
+          targetPort: redis
