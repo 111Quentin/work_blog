@@ -10,19 +10,23 @@ use App\Model\Admin\Post;
 use App\Repositories\PostRepository;
 use App\Services\PostService;
 use App\Http\Requests;
+use App\Criteria\PostCriteria;
 
 class PostController extends Controller
 {
     private $postService;
 
+    private $postCriteria;
+
     public function __construct(PostRepository $postRepository)
     {
         $this->postService = new PostService($postRepository);
+        $this->postCriteria = $postRepository;
     }
 
     public function index()
     {
-        $posts = (new Post())->getPosts();
+        $posts = $this->postService->getPosts();
         return view('admin.post.index', compact('posts'));
     }
 
@@ -33,7 +37,7 @@ class PostController extends Controller
 
     public function store(PostCheck $request)
     {
-        (new Post())->storePosts();
+        $this->postService->storePosts();
         return redirect('/posts');
     }
 
@@ -50,14 +54,14 @@ class PostController extends Controller
     public function update(UpdatePostCheck $request, Post $post)
     {
         $this->authorize('update', $post);
-        $post->updatePost($post);
+        $this->postService->updatePost($post);
         return redirect("/posts/{$post->id}");
     }
 
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-        $post->postDel($post['id'], $post);
+        $this->postService->postDel($post['id'], $post);
         return redirect("/posts");
     }
 
@@ -65,6 +69,9 @@ class PostController extends Controller
     {
         $query = request('query');
         $posts = $this->postService->postSearch($query);
+        //在控制器使用Criteria
+//        $criteria = $this->postCriteria->pushCriteria(new PostCriteria());
+//        dd($this->postCriteria->all());
         return view('admin.post.search', compact('posts', 'query'));
     }
 }

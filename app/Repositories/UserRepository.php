@@ -1,34 +1,24 @@
 <?php
-namespace  App\Model\Admin;
+namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Authenticatable;
+use App\Model\Admin\LoginLog;
+use Prettus\Repository\Eloquent\BaseRepository;
+use App\Model\Admin\User;
+use App\Http\Requests;
 use Auth;
-Use App\Http\Requests;
 
-class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
+class UserRepository extends  BaseRepository
 {
-    // 指定与当前模块关联的数据表
-    protected $table = 'users';
-
-    public $timestamps = true;
-
-    // 填充字段
-    protected $fillable= [
-        'name', 'email', 'password','ip'
-    ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    // 使用trait,相当于将整个trait代码复制过来(trait是php 5.4才有的语法,主要用于实现代码复用)
-    use Authenticatable;
+    public function model()
+    {
+        return User::class;
+    }
 
     /**
      * 注册
+     * @return bool
      */
-    public function  register()
+    public function register()
     {
         $data                   = array();
         $data['password']       = bcrypt(request('password'));
@@ -38,13 +28,13 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
         $data['created_at']     = date("Y-m-d H:i:s", time());
 
         //每次客户端新增判断一下是否有ip存在，而且是否1分钟内再注册
-        $ip = self::where('ip', '=', $data['ip'])->orderBy('created_at', 'desc')->first();
+        $ip = User::where('ip', '=', $data['ip'])->orderBy('created_at', 'desc')->first();
         if (isset($ip) && time() - strtotime($ip->toArray()['created_at']) < 60) {
-            return redirect('/admin/register')->withErrors([
-                'registerError' => '同个ip1分钟内只能注册一个账号'
-            ]);
+            return false;
+        } else {
+            User::insert($data);
+            return true;
         }
-        return User::insert($data);
     }
 
     /**
@@ -52,7 +42,7 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
      */
     public function checkLogin()
     {
-        $user = request(['email', 'password']);
+        $user                   =   request(['email', 'password']);
         $data                   =   array();
         $data['email']          =   $user['email'];
         $data['ip']             =   $_SERVER['REMOTE_ADDR'];
@@ -78,4 +68,6 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
             return -2;
         }
     }
+
+
 }

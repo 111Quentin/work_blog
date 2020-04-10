@@ -2,16 +2,22 @@
 namespace  App\Http\Controllers\Admin;
 
 use App\Http\Requests\LoginPost;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\Admin\User;
 use Auth;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 
 class LoginController extends Controller
 {
+    private $userService;
+
+    public  function __construct(UserRepository $userRepository)
+    {
+        $this->userService = new UserService($userRepository);
+    }
+
     /**
      * 登录页面
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -20,12 +26,10 @@ class LoginController extends Controller
 
     /**
      * 登录
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function login(LoginPost $request)
     {
-        $code = (new User())->checkLogin();
+        $code = $this->userService->checkLogin();
         switch ($code){
             case '1':
                 return redirect('/posts');
@@ -50,7 +54,6 @@ class LoginController extends Controller
 
     /**
      * 退出登录
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout()
     {
