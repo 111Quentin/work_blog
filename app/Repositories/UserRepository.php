@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Model\Admin\LoginLog;
@@ -20,12 +21,12 @@ class UserRepository extends  BaseRepository
      */
     public function register()
     {
-        $data                   = array();
-        $data['password']       = bcrypt(request('password'));
-        $data['name']           = request('name');
-        $data['email']          = request('email');
-        $data['ip']             = $_SERVER['REMOTE_ADDR'];
-        $data['created_at']     = date("Y-m-d H:i:s", time());
+        $data                              = array();
+        $data['password']           = bcrypt(request('password'));
+        $data['name']                 = request('name');
+        $data['email']                  = request('email');
+        $data['ip']                       = $_SERVER['REMOTE_ADDR'];
+        $data['created_at']         = date("Y-m-d H:i:s", time());
 
         //每次客户端新增判断一下是否有ip存在，而且是否1分钟内再注册
         $ip = User::where('ip', '=', $data['ip'])->orderBy('created_at', 'desc')->first();

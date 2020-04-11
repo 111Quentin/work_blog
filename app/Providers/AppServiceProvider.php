@@ -27,10 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->afterResolving(RepositoryCriteriaInterface::class,
-            function(RepositoryCriteriaInterface $object, $app) {
-                $object->pushCriteria($app->make(RoleCriteria::class))
-                ->pushCriteria($app->make(SearchCriteria::class));
-            });
+        //注入两个外部Criteria
+//        $this->app->afterResolving(RepositoryCriteriaInterface::class,
+//            function(RepositoryCriteriaInterface $object, $app) {
+//                $object->pushCriteria($app->make(RoleCriteria::class))
+//                ->pushCriteria($app->make(SearchCriteria::class));
+//            });
+        $this->app->register(RepositoryServiceProvider::class);
     }
 }

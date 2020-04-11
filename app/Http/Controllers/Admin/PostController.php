@@ -9,25 +9,24 @@ use App\Http\Requests\UpdatePostCheck;
 use App\Model\Admin\Post;
 use App\Repositories\PostRepository;
 use App\Services\PostService;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Criteria\RoleCriteria;
+
 
 class PostController extends Controller
 {
     private $postService;
 
-    private $postCriteria;
-
     public function __construct(PostRepository $postRepository)
     {
         $this->postService = new PostService($postRepository);
-        $this->postCriteria = $postRepository;
     }
 
     public function index(PostRepository $postRepository)
     {
-        $posts = $postRepository->scopeQuery(function($query){
-            return $query->oderby('id', 'desc');
+        $postRepository->pushCriteria(new RoleCriteria());
+        $posts = $postRepository->scopeQuery(function ($query){
+            return $query->orderby('id', 'desc');
         })->paginate();
         return view('admin.post.index', compact('posts'));
     }

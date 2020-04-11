@@ -17,9 +17,10 @@ class Post extends  Model
        'title', 'desc','content', 'user_id','author','create_time'
     ];
 
+    //内聚Scope(限定只能查看自己的文章)
     public function scopeByRole($query, $user)
     {
-        return $query->where('user_id', $user->id);
+        return $query->where('user_id', Auth::id());
     }
 
 }
