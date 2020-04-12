@@ -32,9 +32,9 @@ class SearchCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $search = $this->request->all();
+        $search  = $this->request->all();
         $searchs = $search['search'] ?? [];
-
+        dd($search);
         $searchable = $repository->getSearchable();
 
         foreach($searchs as $field => $value)

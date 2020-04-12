@@ -5,8 +5,11 @@
  * Date: 2020/4/9
  * Time: 19:22
  */
+
 namespace App\Services;
+
 use App\Repositories\PostRepository;
+use Illuminate\Http\Request;
 
 class PostService
 {
@@ -31,9 +34,9 @@ class PostService
      * @return bool
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function storePosts()
+    public function storePosts(Request $request)
     {
-        return $this->postRepository->storePosts();
+        return $this->postRepository->storePosts($request);
     }
 
     /**
@@ -41,9 +44,9 @@ class PostService
      * @param $post
      * @return bool
      */
-    public function updatePost($post)
+    public function updatePost($post, Request $request)
     {
-        return $this->postRepository->updatePost($post);
+        return $this->postRepository->updatePost($post, $request);
     }
 
     /**
@@ -54,7 +57,7 @@ class PostService
      */
     public function postDel($id,$post)
     {
-        return $this->postRepository->postDel($id,$post);
+        return $this->postRepository->postDel($id, $post);
     }
 
     /**

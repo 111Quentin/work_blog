@@ -10,7 +10,7 @@
             </li>
 
             <li style="width: 227px;">
-                <input name="search[author]" type="text" value="{{request('search.author')}}" class="form-control" style="margin-top:10px" placeholder="搜索时间格式如:2020-04-08">
+                <input name="key" type="text" value="" class="form-control" style="margin-top:10px" placeholder="搜索时间格式如:2020-04-08">
             </li>
             <li>
                 <button class="btn btn-default" style="margin-top:10px" type="submit">Go!</button>
@@ -20,7 +20,6 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <div>
-{{--                    <img src="{{$user->avatar}}" alt="" class="img-rounded" style="border-radius:500px; height: 30px">--}}
                     <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{Auth::guard('web')->user()->name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/admin/logout">登出</a></li>

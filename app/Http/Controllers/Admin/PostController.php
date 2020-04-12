@@ -11,22 +11,27 @@ use App\Repositories\PostRepository;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Criteria\RoleCriteria;
-
+use App\Criteria\SearchCriteria;
+use Illuminate\Http\Request as Req;
 
 class PostController extends Controller
 {
     private $postService;
 
-    public function __construct(PostRepository $postRepository)
+    private $req;
+
+    public function __construct(PostRepository $postRepository, Req $req)
     {
         $this->postService = new PostService($postRepository);
+        $this->req = $req;
     }
 
     public function index(PostRepository $postRepository)
     {
+        //使用Criteria优化搜索
         $postRepository->pushCriteria(new RoleCriteria());
         $posts = $postRepository->scopeQuery(function ($query){
-            return $query->orderby('id', 'desc');
+            return $query->orderby('created_at', 'desc');
         })->paginate();
         return view('admin.post.index', compact('posts'));
     }
@@ -38,7 +43,7 @@ class PostController extends Controller
 
     public function store(PostCheck $request)
     {
-        $this->postService->storePosts();
+        $this->postService->storePosts($this->req);
         return redirect('/posts');
     }
 
@@ -55,7 +60,7 @@ class PostController extends Controller
     public function update(UpdatePostCheck $request, Post $post)
     {
         $this->authorize('update', $post);
-        $this->postService->updatePost($post);
+        $this->postService->updatePost($post, $this->req);
         return redirect("/posts/{$post->id}");
     }
 
@@ -66,9 +71,13 @@ class PostController extends Controller
         return redirect("/posts");
     }
 
-    public function search(PostRepository $postRepository)
+    public function search(PostRepository $postRepository, Request $request)
     {
-        $posts = $postRepository->paginate();
+        //使用Criteria优化搜索
+        $postRepository->pushCriteria(new SearchCriteria($request));
+        $posts = $postRepository->scopeQuery(function ($query){
+            return $query->orderby('created_at', 'desc');
+        })->paginate();
         return view('admin.post.search', compact('posts'));
     }
 }
