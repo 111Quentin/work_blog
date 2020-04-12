@@ -17,11 +17,15 @@ class PostRepository extends  BaseRepository
         return Post::class;
     }
 
+    /**
+     * 可查询的字段
+     * @return array
+     */
     public function getSearchable()
     {
         return [
             'title'             => 'like',
-            'author'         => 'name',
+            'author'         => 'like',
             'create_time' => 'btwtime',
         ];
     }
@@ -84,18 +88,6 @@ class PostRepository extends  BaseRepository
         return false;
     }
 
-    /**
-     * 文章搜索
-     */
-    public function postSearch($query)
-    {
-        if (preg_match('/\d+/', $query)) {
-            $posts = Post::where('created_at', 'like', '%' . $query . '%')->paginate(10);
-        } else {
-            $posts = Post::where('title', 'like', '%' . $query . '%')->orWhere('author', 'like' , '%' . $query . '%')->paginate(10);
-        }
-        return $posts;
-    }
 
     /**
      * PostLog字段

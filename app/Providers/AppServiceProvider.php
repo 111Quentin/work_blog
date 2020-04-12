@@ -33,6 +33,6 @@ class AppServiceProvider extends ServiceProvider
 //                $object->pushCriteria($app->make(RoleCriteria::class))
 //                ->pushCriteria($app->make(SearchCriteria::class));
 //            });
-        $this->app->register(RepositoryServiceProvider::class);
+//        $this->app->register(RepositoryServiceProvider::class);
     }
 }

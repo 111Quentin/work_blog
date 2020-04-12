@@ -78,6 +78,7 @@ class PostController extends Controller
         $posts = $postRepository->scopeQuery(function ($query){
             return $query->orderby('created_at', 'desc');
         })->paginate();
-        return view('admin.post.search', compact('posts'));
+        $query = request('query');
+        return view('admin.post.search', compact('posts', 'query'));
     }
 }

@@ -10,7 +10,7 @@
             </li>
 
             <li style="width: 227px;">
-                <input name="key" type="text" value="" class="form-control" style="margin-top:10px" placeholder="搜索时间格式如:2020-04-08">
+                <input name="query" type="text" value="" class="form-control" style="margin-top:10px" placeholder="搜索时间格式如:2020-04-08">
             </li>
             <li>
                 <button class="btn btn-default" style="margin-top:10px" type="submit">Go!</button>

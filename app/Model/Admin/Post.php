@@ -18,9 +18,17 @@ class Post extends  Model
     ];
 
     //内聚Scope(限定只能查看自己的文章)
-    public function scopeByRole($query, $user)
+    public function scopeByRole($query, $userId)
     {
-        return $query->where('user_id', Auth::id());
+        return $query->where('user_id', $userId);
+    }
+
+    public function scopeBySearch($query, $key)
+    {
+        if ($key) {
+            return $query->where('title', 'like', '%' . $key . '%')->orWhere('author', 'like' , '%' . $key . '%')->orWhere('desc', 'like' , '%' . $key . '%');
+        }
+        return $query->where('id', '<', 0);
     }
 
 }
