@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-signin" method="POST" action="{{url('/admin/register')}}">
+        <form class="form-signin" method="POST" action="{{URL('/admin/register')}}">
             {{csrf_field()}}
             <h2 class="form-signin-heading">请注册</h2>
             <label for="name" class="sr-only">名字</label>

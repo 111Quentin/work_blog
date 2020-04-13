@@ -9,11 +9,14 @@ use App\Services\UserService;
 
 class LoginController extends Controller
 {
-    private $userService;
+    /**
+     * @var UserRepository
+     */
+    private $userReposity;
 
     public  function __construct(UserRepository $userRepository)
     {
-        $this->userService = new UserService($userRepository);
+        $this->userReposity = $userRepository;
     }
 
     /**
@@ -29,7 +32,7 @@ class LoginController extends Controller
      */
     public function login(LoginPost $request)
     {
-        $code = $this->userService->checkLogin();
+        $code = $this->userReposity->checkLogin();
         switch ($code){
             case '1':
                 return redirect('/posts');

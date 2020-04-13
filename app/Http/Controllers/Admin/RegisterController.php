@@ -8,11 +8,14 @@ use App\Services\UserService;
 
 class RegisterController extends Controller
 {
-    private $userService;
+    /**
+     * @var UserRepository
+     */
+    private $userReposity;
 
     public  function __construct(UserRepository $userRepository)
     {
-        $this->userService = new UserService($userRepository);
+        $this->userReposity = $userRepository;
     }
 
     //注册页面
@@ -23,7 +26,7 @@ class RegisterController extends Controller
     //注册
     public function register(RegisterPost $request)
     {
-        $res = $this->userService->register();
+        $res = $this->userReposity->register();
         if ($res) {
             return redirect('/admin/login');
         } else {
