@@ -20,6 +20,32 @@ class PostsPolicy
     }
 
     /**
+     * 鉴定是否有浏览文章详情的权限
+     * @param User $user
+     * @param Post $post
+     * @return bool
+     */
+    public function show(User $user,Post $post){
+        if($user->name == 'admin'){
+            return true;
+        }
+        return $user->id == $post->user_id;
+    }
+
+    /**
+     * 鉴定是否有进入文章编辑页面的权限
+     * @param User $user
+     * @param Post $post
+     * @return bool
+     */
+    public function edit(User $user,Post $post){
+        if($user->name == 'admin'){
+            return true;
+        }
+        return $user->id == $post->user_id;
+    }
+
+    /**
      * 鉴定是否有文章修改的权限
      * @param User $user
      * @param Post $post

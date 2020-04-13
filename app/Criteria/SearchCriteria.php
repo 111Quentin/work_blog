@@ -33,7 +33,7 @@ class SearchCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $key = $this->request->query('query') ? $this->request->query('query') : '';
+        $key = $this->request->query('query') ? :'';
         return $model->bySearch($key);
     }
 

@@ -3,7 +3,7 @@
 @section("content")
 
     <div class="col-sm-8 blog-main">
-        <form action="/posts" method="POST">
+        <form action="{{URL('/posts')}}" method="POST">
             {{csrf_field()}}
             <div class="form-group">
                 <label>标题</label>

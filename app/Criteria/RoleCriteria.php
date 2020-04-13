@@ -2,10 +2,10 @@
 
 namespace App\Criteria;
 
+use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
-use App\Model\Admin\User;
-use Auth;
+
 
 /**
  * Class RoleCriteria.
@@ -14,21 +14,30 @@ use Auth;
  */
 class RoleCriteria implements CriteriaInterface
 {
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    public function  __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * Apply criteria in query repository
      *
-     * @param string              $model
+     * @param \App\Model\Admin\Post $model
      * @param RepositoryInterface $repository
      *
      * @return mixed
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        $user = new User();
+        $user = $this->request->user();
         if ($user->isAdmin()) {
             return $model;
         }
-        return $model->byRole(Auth::id());
+        return $model->byRole($user);
     }
 }

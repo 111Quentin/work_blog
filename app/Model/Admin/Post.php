@@ -17,10 +17,16 @@ class Post extends  Model
        'title', 'desc','content', 'user_id','author','create_time'
     ];
 
-    //内聚Scope(限定只能查看自己的文章)
-    public function scopeByRole($query, $userId)
+
+    /**
+     * 只查看本人博客
+     * @param $query
+     * @param $user
+     * @return mixed
+     */
+    public function scopeByRole($query, $user)
     {
-        return $query->where('user_id', $userId);
+        return $query->where('user_id', $user->id);
     }
 
     public function scopeBySearch($query, $key)
@@ -29,6 +35,16 @@ class Post extends  Model
             return $query->where('title', 'like', '%' . $key . '%')->orWhere('author', 'like' , '%' . $key . '%')->orWhere('desc', 'like' , '%' . $key . '%');
         }
         return $query->where('id', '<', 0);
+    }
+
+    /**
+     * 常用scope
+     * @param $query
+     * @return mixed
+     */
+    public function scopeRecent($query)
+    {
+        return $query->orderby('created_at','desc');
     }
 
 }

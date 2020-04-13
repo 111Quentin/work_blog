@@ -1,6 +1,6 @@
 <div class="blog-masthead">
     <div class="container">
-        <form action="/posts/search" method="GET">
+        <form action="{{URL('/posts/search')}}" method="GET">
         <ul class="nav navbar-nav navbar-left">
             <li>
                 <a class="blog-nav-item " href="/posts">首页</a>
@@ -20,9 +20,9 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <div>
-                    <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{Auth::guard('web')->user()->name}}<span class="caret"></span></a>
+                    <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{request()->user()->name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/admin/logout">登出</a></li>
+                        <li><a href="{{URL('/admin/logout')}}">登出</a></li>
                     </ul>
                 </div>
             </li>

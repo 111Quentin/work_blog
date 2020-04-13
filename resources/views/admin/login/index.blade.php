@@ -33,7 +33,7 @@
 
 <div class="container">
 
-    <form class="form-signin" method="POST" action="/admin/login">
+    <form class="form-signin" method="POST" action="{{URL('/admin/login')}}">
         {{csrf_field()}}
         <h2 class="form-signin-heading">请登录</h2>
         <label for="inputEmail" class="sr-only">邮箱</label>
