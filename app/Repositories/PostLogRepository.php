@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Model\Admin\Post;
+use App\Model\Admin\PostLog;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\PostLogRepositoryRepository;
@@ -22,7 +23,7 @@ class PostLogRepository extends BaseRepository
      */
     public function model()
     {
-        return PostLogRepository::class;
+        return PostLog::class;
     }
 
     public function saveLog(Post $post, string $action, string $ip)
@@ -34,6 +35,7 @@ class PostLogRepository extends BaseRepository
         $data['title'] = $post->title;
         $data['desc'] = $post->desc;
         $data['ip'] = $ip;
+        dump($data);
         return $this->create($data);
     }
 }
