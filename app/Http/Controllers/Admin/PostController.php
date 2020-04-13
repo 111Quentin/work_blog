@@ -36,8 +36,6 @@ class PostController extends Controller
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function index(){
-        //使用Criteria优化搜索
-        $this->postRepository->pushCriteria(new RoleCriteria( $this->request ));
         $posts = $this->postRepository->recent()->paginate();
         return view('admin.post.index', compact('posts'));
     }
@@ -126,8 +124,6 @@ class PostController extends Controller
      */
     public function search()
     {
-        //使用Criteria优化搜索
-        $this->postRepository->pushCriteria(new SearchCriteria( $this->request ));
         $posts = $this->postRepository->recent()->paginate();
         return view('admin.post.index', compact('posts'));
     }

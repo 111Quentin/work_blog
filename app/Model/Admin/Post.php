@@ -17,7 +17,6 @@ class Post extends  Model
        'title', 'desc','content', 'user_id','author','create_time'
     ];
 
-
     /**
      * 只查看本人博客
      * @param $query
@@ -29,12 +28,17 @@ class Post extends  Model
         return $query->where('user_id', $user->id);
     }
 
+    /**
+     * 字段查询
+     * @param $query
+     * @param $key
+     * @return mixed
+     */
     public function scopeBySearch($query, $key)
     {
         if ($key) {
             return $query->where('title', 'like', '%' . $key . '%')->orWhere('author', 'like' , '%' . $key . '%')->orWhere('desc', 'like' , '%' . $key . '%');
         }
-        return $query->where('id', '<', 0);
     }
 
     /**

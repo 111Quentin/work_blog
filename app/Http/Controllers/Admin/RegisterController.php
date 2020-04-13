@@ -18,12 +18,20 @@ class RegisterController extends Controller
         $this->userReposity = $userRepository;
     }
 
-    //注册页面
+    /**
+     * 注册页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('admin.register.index');
     }
-    //注册
+
+    /**
+     * 账号注册
+     * @param RegisterPost $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function register(RegisterPost $request)
     {
         $res = $this->userReposity->register();

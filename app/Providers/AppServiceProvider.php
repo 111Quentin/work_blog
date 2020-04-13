@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //监视Post模块事件
         Post::observe(PostObserver::class);
     }
 
@@ -29,12 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //注入两个外部Criteria
-//        $this->app->afterResolving(RepositoryCriteriaInterface::class,
-//            function(RepositoryCriteriaInterface $object, $app) {
-//                $object->pushCriteria($app->make(RoleCriteria::class))
-//                ->pushCriteria($app->make(SearchCriteria::class));
-//            });
-//        $this->app->register(RepositoryServiceProvider::class);
+        //注册全局Criteria
+        $this->app->afterResolving(RepositoryCriteriaInterface::class,
+            function(RepositoryCriteriaInterface $object, $app) {
+                $object->pushCriteria($app->make(RoleCriteria::class))
+                ->pushCriteria($app->make(SearchCriteria::class));
+            });
     }
 }

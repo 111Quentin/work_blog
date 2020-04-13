@@ -21,6 +21,7 @@ class LoginController extends Controller
 
     /**
      * 登录页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -28,7 +29,9 @@ class LoginController extends Controller
     }
 
     /**
-     * 登录
+     * 账号登录
+     * @param LoginPost $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function login(LoginPost $request)
     {
@@ -57,6 +60,7 @@ class LoginController extends Controller
 
     /**
      * 退出登录
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout()
     {

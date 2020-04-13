@@ -27,12 +27,12 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
     use Authenticatable;
 
     /**
-     * 判断是否为管理员
+     * 是否为管理员
      * @return bool
      */
-    public   function isAdmin()
+    public  function isAdmin()
     {
-        return $this->name== 'admin';
+        return $this->name == 'admin';
     }
 
 
