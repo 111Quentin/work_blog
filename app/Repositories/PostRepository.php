@@ -25,8 +25,8 @@ class PostRepository extends  BaseRepository
     {
         return [
             'title'             => 'like',
-            'author'         => 'like',
-            'create_time' => 'btwtime',
+            'author'            => 'like',
+            'create_time'       => 'btwtime',
         ];
     }
 

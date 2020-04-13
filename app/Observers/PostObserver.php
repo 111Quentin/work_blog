@@ -24,12 +24,7 @@ class PostObserver
         $this->request = $request;
     }
 
-    /**
-     * Handle the post "created" event.
-     *
-     * @param  \App\Model\Admin\Post  $post
-     * @return void
-     */
+
     public function created(Post $post)
     {
         return $this->postLogRepository->saveLog(
@@ -39,27 +34,26 @@ class PostObserver
         );
     }
 
-    /**
-     * Handle the post "updated" event.
-     *
-     * @param  \App\Model\Admin\Post  $post
-     * @return void
-     */
+
     public function updated(Post $post)
     {
-        //
+        return $this->postLogRepository->saveLog(
+            $post,
+            'update',
+            $this->request->getClientIp()
+        );
     }
 
-    /**
-     * Handle the post "deleted" event.
-     *
-     * @param  \App\Model\Admin\Post  $post
-     * @return void
-     */
+
     public function deleted(Post $post)
     {
-        //
+        return $this->postLogRepository->saveLog(
+            $post,
+            'delete',
+            $this->request->getClientIp()
+        );
     }
+
 
     /**
      * Handle the post "restored" event.

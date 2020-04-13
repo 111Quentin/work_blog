@@ -16,16 +16,17 @@ use Illuminate\Http\Request as Req;
 
 class PostController extends Controller
 {
-    private $postService;
+    private $postRepository;
 
-    private $req;
-
-
-    public function index(PostRepository $postRepository)
+    public function __construct(PostRepository $postRepository)
     {
+        $this->postRepository = $postRepository;
+    }
+
+    public function index(){
         //使用Criteria优化搜索
-        $postRepository->pushCriteria(new RoleCriteria());
-        $posts = $postRepository->scopeQuery(function ($query){
+        $this->postRepository->pushCriteria(new RoleCriteria());
+        $posts = $this->postRepository->scopeQuery(function ($query){
             return $query->orderby('created_at', 'desc');
         })->paginate();
         return view('admin.post.index', compact('posts'));
@@ -36,12 +37,12 @@ class PostController extends Controller
         return view('admin.post.create');
     }
 
-    public function store(PostRepository $postRepository, PostCheck $request)
+    public function store(PostCheck $request)
     {
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
-        $data['author'] = $request->user()->name;
-        $post = $postRepository->create($data);
+        $data['author']  = $request->user()->name;
+        $post = $this->postRepository->create($data);
         return redirect("/posts/{$post->id}");
     }
 
@@ -58,22 +59,24 @@ class PostController extends Controller
     public function update(UpdatePostCheck $request, Post $post)
     {
         $this->authorize('update', $post);
-        $this->postService->updatePost($post, $this->req);
+        $data               = $request->all();
+        $data['updated_at'] = date("Y-m-d H:i:s",time());
+        $this->postRepository->update($data, $post->id);
         return redirect("/posts/{$post->id}");
     }
 
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-        $this->postService->postDel($post['id'], $post);
+        $this->postRepository->delete($post->id);
         return redirect("/posts");
     }
 
-    public function search(PostRepository $postRepository, Request $request)
+    public function search(Request $request)
     {
         //使用Criteria优化搜索
-        $postRepository->pushCriteria(new SearchCriteria($request));
-        $posts = $postRepository->scopeQuery(function ($query){
+        $this->postRepository->pushCriteria(new SearchCriteria($request));
+        $posts = $this->postRepository->scopeQuery(function ($query){
             return $query->orderby('created_at', 'desc');
         })->paginate();
         $query = request('query');

@@ -26,16 +26,24 @@ class PostLogRepository extends BaseRepository
         return PostLog::class;
     }
 
+    /**
+     * 写入博客日志
+     * @param Post $post
+     * @param string $action
+     * @param string $ip
+     * @return mixed
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
     public function saveLog(Post $post, string $action, string $ip)
     {
-        $data['post_id'] = $post->id;
-        $data['user_id'] = $post->user_id;
-        $data['content'] = $post->content;
-        $data['create_time'] = time();
-        $data['title'] = $post->title;
-        $data['desc'] = $post->desc;
-        $data['ip'] = $ip;
-        dump($data);
+        $data['post_id']        = $post->id;
+        $data['user_id']        = $post->user_id;
+        $data['action']         = $action;
+        $data['content']        = $post->content;
+        $data['create_time']    = time();
+        $data['title']          = $post->title;
+        $data['desc']           = $post->desc;
+        $data['ip']             = $ip;
         return $this->create($data);
     }
 }
