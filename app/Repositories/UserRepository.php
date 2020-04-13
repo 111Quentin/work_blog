@@ -7,6 +7,8 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use App\Model\Admin\User;
 use App\Http\Requests;
 use Auth;
+use App\Events\UserLogin;
+
 
 class UserRepository extends  BaseRepository
 {
@@ -57,7 +59,7 @@ class UserRepository extends  BaseRepository
         if (true == Auth::guard('web')->attempt($user) && $loginCounts < 5) {
             //记录登录成功日志
             $data['login_type'] = 'suc';
-            LoginLog::insert($data);
+            event( new UserLogin($data) );
             return 1;
         } else if(empty($userInfo)) {  //无此用户
             return 0;
@@ -65,7 +67,7 @@ class UserRepository extends  BaseRepository
             return -1;
         } else {
             $data['login_type'] = 'fail';
-            LoginLog::insert($data);
+            event( new UserLogin($data) );
             return -2;
         }
     }

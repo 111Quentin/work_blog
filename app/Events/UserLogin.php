@@ -14,7 +14,7 @@ class UserLogin
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $data;
+    public $data;
 
     /**
      * Create a new event instance.

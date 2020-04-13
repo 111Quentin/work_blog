@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\UserLogin;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Model\Admin\LoginLog as DlLog;
 
 class LoginLog
 {
@@ -26,6 +27,6 @@ class LoginLog
      */
     public function handle(UserLogin $event)
     {
-        //
+        return DlLog::insert($event->data);
     }
 }
