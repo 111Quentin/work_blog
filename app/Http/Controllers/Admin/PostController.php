@@ -20,11 +20,6 @@ class PostController extends Controller
 
     private $req;
 
-    public function __construct(PostRepository $postRepository, Req $req)
-    {
-        $this->postService = new PostService($postRepository);
-        $this->req = $req;
-    }
 
     public function index(PostRepository $postRepository)
     {
@@ -41,10 +36,13 @@ class PostController extends Controller
         return view('admin.post.create');
     }
 
-    public function store(PostCheck $request)
+    public function store(PostRepository $postRepository, PostCheck $request)
     {
-        $this->postService->storePosts($this->req);
-        return redirect('/posts');
+        $data = $request->all();
+        $data['user_id'] = $request->user()->id;
+        $data['author'] = $request->user()->name;
+        $post = $postRepository->create($data);
+        return redirect("/posts/{$post->id}");
     }
 
     public function show(Post $post)

@@ -32,7 +32,7 @@ class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
      */
     public   function isAdmin()
     {
-        return Auth::user()->name== 'admin';
+        return $this->name== 'admin';
     }
 
 

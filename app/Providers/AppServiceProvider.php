@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Criteria\RoleCriteria;
 use App\Criteria\SearchCriteria;
+use App\Model\Admin\Post;
+use App\Observers\PostObserver;
 use Illuminate\Support\ServiceProvider;
 use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Providers\RepositoryServiceProvider;
@@ -17,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Post::observe(PostObserver::class);
     }
 
     /**
