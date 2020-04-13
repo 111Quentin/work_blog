@@ -31,13 +31,12 @@ class UserRepository extends  BaseRepository
         $data['email']             = request('email');
         $data['ip']                = $_SERVER['REMOTE_ADDR'];
         $data['created_at']        = date("Y-m-d H:i:s", time());
-
         //每次客户端新增判断一下是否有ip存在，而且是否1分钟内再注册
         $ip = $this->model->where('ip', '=', $data['ip'])->orderBy('created_at', 'desc')->first();
         if (isset($ip) && time() - strtotime($ip->toArray()['created_at']) < 60) {
             return false;
         } else {
-            User::insert($data);
+            $this->model->insert($data);
             return true;
         }
     }
@@ -73,6 +72,4 @@ class UserRepository extends  BaseRepository
             return -2;
         }
     }
-
-
 }

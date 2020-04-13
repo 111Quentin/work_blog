@@ -19,7 +19,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
     Route::get('register','RegisterController@index');
     Route::post('register','RegisterController@register');
     //后台登录
-    Route::get('login','LoginController@index');
+    Route::get('login','LoginController@index')->name('login');
     Route::post('login','LoginController@login');
     Route::get('logout','LoginController@logout');
 });

@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PostCheck;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePostCheck;
 use App\Model\Admin\Post;
 use App\Repositories\PostRepository;
 use App\Services\PostService;
 use Illuminate\Http\Request;
-use App\Criteria\RoleCriteria;
-use App\Criteria\SearchCriteria;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
     /**
      * @var PostRepository
@@ -26,6 +23,7 @@ class PostController extends Controller
 
     public function __construct(PostRepository $postRepository, Request $request)
     {
+        parent::__construct();
         $this->postRepository = $postRepository;
         $this->request = $request;
     }
