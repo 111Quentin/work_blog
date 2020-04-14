@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
-use App\Model\Admin\Post;
+use App\Models\Admin\Post;
 
 /**
  * Class SearchCriteria.

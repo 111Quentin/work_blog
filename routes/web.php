@@ -11,15 +11,15 @@
 |
 */
 
-Route::get('/', "Admin\LoginController@index");
+Route::get('/', "Auth\LoginController@showLoginForm");
 
 //后台路由部分
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
+Route::group(['prefix' => 'admin', 'namespace' => 'Auth'],function (){
     //后台注册
-    Route::get('register','RegisterController@index');
+    Route::get('register','RegisterController@showRegistrationForm');
     Route::post('register','RegisterController@register');
     //后台登录
-    Route::get('login','LoginController@index')->name('login');
+    Route::get('login','LoginController@showLoginForm')->name('login');
     Route::post('login','LoginController@login');
     Route::get('logout','LoginController@logout');
 });

@@ -27,7 +27,7 @@ class RoleCriteria implements CriteriaInterface
     /**
      * Apply criteria in query repository
      *
-     * @param \App\Model\Admin\Post $model
+     * @param \App\Models\Admin\Post $model
      * @param RepositoryInterface $repository
      *
      * @return mixed

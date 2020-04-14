@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Model\Admin;
+namespace  App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
@@ -9,16 +9,26 @@ Use App\Http\Requests;
 
 class User extends  Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
-    // 指定与当前模块关联的数据表
+    /**
+     * @var string
+     */
     protected $table = 'users';
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
-    // 填充字段
+    /**
+     * @var array
+     */
     protected $fillable= [
         'name', 'email', 'password','ip'
     ];
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];

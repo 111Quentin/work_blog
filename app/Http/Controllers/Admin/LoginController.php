@@ -5,7 +5,7 @@ use App\Http\Requests\LoginPost;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Repositories\UserRepository;
-use App\Services\UserService;
+
 
 class LoginController extends Controller
 {
@@ -35,7 +35,7 @@ class LoginController extends Controller
      */
     public function login(LoginPost $request)
     {
-        return $this->userReposity->checkLogin();
+//        return $this->userReposity->checkLogin();
     }
 
     /**

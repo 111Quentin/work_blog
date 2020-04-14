@@ -1,8 +1,8 @@
 <?php
 namespace App\Policies;
 
-use App\Model\Admin\User;
-use App\Model\Admin\Post;
+use App\Models\Admin\User;
+use App\Models\Admin\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostsPolicy

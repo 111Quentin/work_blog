@@ -1,5 +1,5 @@
 <?php
-namespace  App\Model\Admin;
+namespace  App\Models\Admin;
 use Illuminate\Database\Eloquent\Model;
 
 class PostLog extends  Model

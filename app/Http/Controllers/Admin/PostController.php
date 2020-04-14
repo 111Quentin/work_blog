@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PostCheck;
 use App\Http\Requests\UpdatePostCheck;
-use App\Model\Admin\Post;
+use App\Models\Admin\Post;
 use App\Repositories\PostRepository;
 use App\Services\PostService;
 use Illuminate\Http\Request;

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Model\Admin\Post;
-use App\Model\Admin\PostLog;
+use App\Models\Admin\Post;
+use App\Models\Admin\PostLog;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\PostLogRepositoryRepository;
@@ -17,7 +17,7 @@ use App\Validators\PostLogRepositoryValidator;
 class PostLogRepository extends BaseRepository
 {
     /**
-     * Specify Model class name
+     * Specify Models class name
      *
      * @return string
      */

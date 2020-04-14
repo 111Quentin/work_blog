@@ -1,18 +1,27 @@
 <?php
-namespace  App\Model\Admin;
+namespace  App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
-use App\Model\Admin\User;
+use App\Models\Admin\User;
 use App\Http\Requests;
-use App\Model\Admin\PostLog;
+use App\Models\Admin\PostLog;
 
 class Post extends  Model
 {
-    // 指定与当前模块关联的数据表
+    /**
+     * @var string
+     */
     protected $table = 'posts';
 
-    // 填充字段
+    /**
+     * @var bool
+     */
+    public $timestamps = true;
+
+    /**
+     * @var array
+     */
     protected $fillable= [
        'title', 'desc','content', 'user_id','author','create_time'
     ];

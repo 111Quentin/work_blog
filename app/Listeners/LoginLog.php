@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\UserLogin;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Model\Admin\LoginLog as DlLog;
+use App\Models\Admin\LoginLog as DlLog;
 
 class LoginLog
 {

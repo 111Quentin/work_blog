@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Model\Admin\Post;
+use App\Models\Admin\Post;
 use App\Repositories\PostLogRepository;
 use Illuminate\Http\Request;
 
@@ -58,7 +58,7 @@ class PostObserver
     /**
      * Handle the post "restored" event.
      *
-     * @param  \App\Model\Admin\Post  $post
+     * @param  \App\Models\Admin\Post  $post
      * @return void
      */
     public function restored(Post $post)
@@ -69,7 +69,7 @@ class PostObserver
     /**
      * Handle the post "force deleted" event.
      *
-     * @param  \App\Model\Admin\Post  $post
+     * @param  \App\Models\Admin\Post  $post
      * @return void
      */
     public function forceDeleted(Post $post)

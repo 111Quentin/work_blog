@@ -4,7 +4,7 @@ namespace  App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterPost;
 use App\Repositories\UserRepository;
-use App\Services\UserService;
+
 
 class RegisterController extends Controller
 {

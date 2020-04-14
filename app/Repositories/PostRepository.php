@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Criteria\RoleCriteria;
-use App\Model\Admin\PostLog;
+
+use App\Models\Admin\PostLog;
 use Prettus\Repository\Eloquent\BaseRepository;
-use App\Model\Admin\Post;
-use App\Model\Admin\User;
+use App\Models\Admin\Post;
+use App\Models\Admin\User;
 use Auth;
 
 class PostRepository extends  BaseRepository
