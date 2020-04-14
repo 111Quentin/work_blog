@@ -3,16 +3,17 @@
     use Illuminate\Database\Eloquent\Model;
 
     class LoginLog extends  Model {
-        // 指定与当前模块关联的数据表
+        /**
+         * @var string
+         */
         protected $table = 'login_log';
 
-        // 填充字段
+        /**
+         * @var array
+         */
         protected $fillable= [
            'email', 'login_type','ip','create_time'
         ];
 
-
-
-
-
+        public $timestamps = false;
     }

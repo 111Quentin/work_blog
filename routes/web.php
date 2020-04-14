@@ -17,10 +17,10 @@ Route::get('/', "Auth\LoginController@showLoginForm");
 Route::group(['prefix' => 'admin', 'namespace' => 'Auth'],function (){
     //后台注册
     Route::get('register','RegisterController@showRegistrationForm');
-    Route::post('register','RegisterController@register');
+    Route::post('register','RegisterController@register')->middleware('terminate');
     //后台登录
     Route::get('login','LoginController@showLoginForm')->name('login');
-    Route::post('login','LoginController@login');
+    Route::post('login','LoginController@login')->middleware('terminate');
     Route::get('logout','LoginController@logout');
 });
 
