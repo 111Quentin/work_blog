@@ -30,17 +30,10 @@ class RegisterController extends Controller
     /**
      * 账号注册
      * @param RegisterPost $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return bool
      */
     public function register(RegisterPost $request)
     {
-        $res = $this->userReposity->register();
-        if ($res) {
-            return redirect('/admin/login');
-        } else {
-            return redirect('/admin/register')->withErrors([
-                'registerError' => '同个ip1分钟内只能注册一个账号'
-            ]);
-        }
+        return $this->userReposity->register();
     }
 }

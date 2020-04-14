@@ -35,27 +35,7 @@ class LoginController extends Controller
      */
     public function login(LoginPost $request)
     {
-        $code = $this->userReposity->checkLogin();
-        switch ($code){
-            case '1':
-                return redirect('/posts');
-                break;
-            case '0':
-                return redirect('/admin/login')->withErrors([
-                    'loginError' => '无此用户'
-                ]);
-                break;
-            case '-1':
-                return redirect('/admin/login')->withErrors([
-                    'loginError' => '登陆错误次数过多，请于10分钟后登陆'
-                ]);
-                break;
-            default:
-                return redirect('/admin/login')->withErrors([
-                    'loginError' => '登录邮箱或密码错误'
-                ]);
-                break;
-        }
+        return $this->userReposity->checkLogin();
     }
 
     /**
