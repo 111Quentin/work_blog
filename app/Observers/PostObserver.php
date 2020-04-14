@@ -27,31 +27,31 @@ class PostObserver
 
     public function created(Post $post)
     {
-        return $this->postLogRepository->saveLog(
-            $post,
-            'insert',
-            $this->request->getClientIp()
-        );
+//        return $this->postLogRepository->saveLog(
+//            $post,
+//            'insert',
+//            $this->request->getClientIp()
+//        );
     }
 
 
     public function updated(Post $post)
     {
-        return $this->postLogRepository->saveLog(
-            $post,
-            'update',
-            $this->request->getClientIp()
-        );
+//        return $this->postLogRepository->saveLog(
+//            $post,
+//            'update',
+//            $this->request->getClientIp()
+//        );
     }
 
 
     public function deleted(Post $post)
     {
-        return $this->postLogRepository->saveLog(
-            $post,
-            'delete',
-            $this->request->getClientIp()
-        );
+//        return $this->postLogRepository->saveLog(
+//            $post,
+//            'delete',
+//            $this->request->getClientIp()
+//        );
     }
 
 

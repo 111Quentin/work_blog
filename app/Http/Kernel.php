@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         //在这里注册自定义中间件
         'terminate' => \App\Http\Middleware\TerminateSaveLoginLog::class,
+        'post' => \App\Http\Middleware\TerminatePostLog::class,
     ];
 }

@@ -25,7 +25,8 @@ class TerminateSaveLoginLog
      * @param $response
      * @return mixed
      */
-    public function terminate($request, $response){
+    public function terminate($request, $response)
+    {
         $data = array(
             'email'             => $request->get('email'),
             'login_type'        => $request->get('login_type'),

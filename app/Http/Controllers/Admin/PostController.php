@@ -48,8 +48,8 @@ class PostController extends BaseController
     }
 
     /**
-     * 新增博客
      * @param PostCheck $request
+     * @param Post $post
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
@@ -59,6 +59,8 @@ class PostController extends BaseController
         $data['user_id'] = $request->user()->id;
         $data['author']  = $request->user()->name;
         $post = $this->postRepository->create($data);
+        $this->request->offsetSet('post_id', $post->id);
+        $this->request->offsetSet('action', 'insert');
         return redirect("/posts/{$post->id}");
     }
 
@@ -98,12 +100,15 @@ class PostController extends BaseController
     {
         $this->authorize('update', $post);
         $data = $this->request->all();
+        $this->request->offsetSet('post_id', $post->id);
+        $this->request->offsetSet('action', 'update');
         $post->update($data);
         return redirect("/posts/{$post->id}");
     }
 
     /**
      * 删除博客
+     * @param Request $request
      * @param Post $post
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -111,6 +116,8 @@ class PostController extends BaseController
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
+        $this->request->offsetSet('post_id', $post->id);
+        $this->request->offsetSet('action', 'delete');
         $post->delete();
         return redirect("/posts");
     }
