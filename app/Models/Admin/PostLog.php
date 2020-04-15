@@ -6,17 +6,25 @@ use App\Models\Admin\Post;
 
 class PostLog extends  Model
 {
-    // 指定与当前模块关联的数据表
+    /**
+     * @var string
+     */
     protected $table = 'posts_log';
 
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
-    // 填充字段
-    protected $fillable= [
+    /**
+     * @var array
+     */
+    protected $fillable = [
        'post_id','user_id','action','cycle','content','title','desc','ip','create_time'
     ];
 
     /**
+     * 保存日志
      * @param \App\Models\Admin\Post $post
      * @param string $action
      * @param string $cycle
