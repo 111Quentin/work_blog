@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Listeners\PostEventSubscriber;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Models\Admin\Post;
+use Illuminate\Support\Facades\Log;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,8 +21,11 @@ class EventServiceProvider extends ServiceProvider
 //        ],
         'App\Events\UserLogin' => [
             'App\Listeners\LoginLog',
-        ]
+        ],
+
     ];
+
+
 
     /**
      * Register any events for your application.
@@ -29,8 +35,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
         //
-
     }
 }

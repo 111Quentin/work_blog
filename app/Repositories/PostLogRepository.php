@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\Admin\Post;
 use App\Models\Admin\PostLog;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\PostLogRepositoryRepository;
 use App\Validators\PostLogRepositoryValidator;
 
@@ -30,20 +29,21 @@ class PostLogRepository extends BaseRepository
      * 写入博客日志
      * @param Post $post
      * @param string $action
-     * @param string $ip
+     * @param string $cycle
      * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function saveLog(Post $post, string $action, string $ip)
+    public  function saveLog(Post $post, string $action, string $cycle)
     {
-        $data['post_id']        = $post->id;
+        $data['post_id']        = $post->id ? : 0;
         $data['user_id']        = $post->user_id;
         $data['action']         = $action;
+        $data['cycle']          = $cycle;
         $data['content']        = $post->content;
-        $data['create_time']    = time();
         $data['title']          = $post->title;
         $data['desc']           = $post->desc;
-        $data['ip']             = $ip;
+        $data['ip']             = $_SERVER['REMOTE_ADDR'];
+        $data['create_time']    = time();
         return $this->create($data);
     }
 }

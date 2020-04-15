@@ -28,12 +28,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Auth'],function (){
 Route::group(['middleware' => 'auth:web','namespace' => 'Admin'],function (){
     Route::get('posts', 'PostController@index');
     Route::get('/posts/create', 'PostController@create');
-    Route::post('/posts', 'PostController@store')->middleware('post');
+    Route::post('/posts', 'PostController@store');
     Route::get('/posts/search', 'PostController@search');
     Route::get('/posts/{post}', 'PostController@show');
     Route::get('/posts/{post}/edit', 'PostController@edit');
-    Route::get('/posts/{post}/delete', 'PostController@destroy')->middleware('post');
-    Route::put('/posts/{post}', 'PostController@update')->middleware('post');
+    Route::get('/posts/{post}/delete', 'PostController@destroy');
+    Route::put('/posts/{post}', 'PostController@update');
 });
 
 

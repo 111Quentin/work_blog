@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //监视Post模块事件
-        Post::observe(PostObserver::class);
+//        Post::observe(PostObserver::class);
     }
 
     /**

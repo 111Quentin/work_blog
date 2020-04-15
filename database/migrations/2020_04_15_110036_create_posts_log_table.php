@@ -15,9 +15,10 @@ class CreatePostsLogTable extends Migration
     {
         Schema::create('posts_log', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_id');
+            $table->integer('post_id')->nullable();
             $table->integer('user_id');
             $table->enum('action',['insert','delete','update','select']);
+            $table->enum('cycle', ['creating', 'created', 'updating', 'updated', 'deleting', 'deleted']);
             $table->text('content')->nullable();
             $table->string('title', 50)->default('');
             $table->string('desc', 100)->default('');
